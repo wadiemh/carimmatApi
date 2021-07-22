@@ -1,7 +1,7 @@
 {
   "name": "carrimat",
   "version": "1.0.0",
-  "description": "",
+  "description": "all you have to do is clone this project then run this command : npm setup (if you have nodemon installed globally, if not you could do npm i then node app.js from within the root dir)",
   "main": "app.js",
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -11,8 +11,17 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup" : "npm init -y && nodemon"
+    "setup": "npm i && nodemon"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wadiemh/carimmatApi.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/wadiemh/carimmatApi/issues"
+  },
+  "homepage": "https://github.com/wadiemh/carimmatApi#readme"
 }
