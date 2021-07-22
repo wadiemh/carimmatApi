@@ -1,0 +1,1 @@
+all you have to do is clone this project then run this command : npm setup (if you have nodemon installed globally, if not you could do npm init -y then node app.js from within the root dir)

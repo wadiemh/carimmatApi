@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>Carimmat API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color:whitesmoke;
+            font-family: system-ui;
+        }
+
+        .container {
+            margin: 1rem;
+            padding: 1rem;
+            display: grid;
+            place-items: center;
+        }
+
+        .api-div {
+            text-align: center;
+            border: 1px solid black;
+            margin: 1rem;
+            padding: 1rem;
+            background-color:  #dec8c8;
+            border-radius: 0.4em;
+        }
+
+        .btn{
+            padding: 1em;
+            border-radius: 0.5em;
+            display: block;
+            margin: 0.6em;
+        }
+        .btn:hover, .btn-login:hover{
+            background-color: white;
+        }
+        .header{
+            margin: 2em;
+        }
+
+        .btn-login{
+            padding: 1em;
+            border-radius: 0.5em;
+            border: 1px solid tomato;
+            display: block;
+            margin-top: 6em;
+        }
+
+        .msg-login{
+            width: 25em;
+            color: tomato;
+            margin-top: 0.5em;
+            text-align: center;
+        }
+
+        img {
+            border-radius: 200px;
+        }
+    </style>
+</head>
+<body class="container">
+    <img src="images/carimmat.png" alt="carimmat img">
+                                    <h1 class="header">CARRIMAT WEB API</h1>
+    <p class="header">whatsup Ludovic, open the <b>dev tool</b>  to visualise the details of the requests !</p>
+    <div class="container">
+        <button id="getId" class="btn">Click Here to perform an unprotected <b>GET</b>  request to the API</button>
+        <div id="getIdResponse"></div>
+    
+        <button id="postId" class="btn">Click Here to perform an unprotected <b>POST</b>  request to the API</button>
+        <div id="postIdResponse"></div>
+    
+        <button id="getProtectedId" class="btn">Click Here to perform a protected <b>GET</b> request to the API</button>
+        <div id="getProtectedIdResponse"></div>
+    
+        <button id="postProtectedId" class="btn">Click Here to perform a protected <b>POST</b> request to the API</button>
+        <div id="postProtectedIdResponse"></div>
+
+        <button id="loginId" class="btn-login">Click Here to perform login <b>GET</b> request to the API (set JWT)</button>
+        <p class="msg-login">DON'T Click here before testing the protected routes, i didn't implement an unset for the JWT (but you can delete it from within your DEV TOOL ;) 
+            hmm i forgot you can't, this is because i'm preventing this api from XSS Atack) <br> <br>    ITS GONNA EXPIRE IN 5s :)</p>
+        <div id="loginResponse"></div>
+    </div>
+</body>
+<script>
+        const getId                   = document.getElementById('getId');
+        const postId                  = document.getElementById('postId');
+        const getProtectedId          = document.getElementById('getProtectedId');
+        const postProtectedId         = document.getElementById('postProtectedId');
+        const getIdResponse           = document.getElementById("getIdResponse");
+        const postIdResponse          = document.getElementById("postIdResponse");
+        const getProtectedIdResponse  = document.getElementById("getProtectedIdResponse");
+        const postProtectedIdResponse = document.getElementById("postProtectedIdResponse");
+
+        const loginId                 = document.getElementById('loginId');
+        const loginResponse           = document.getElementById("loginResponse");
+        
+        // function calls
+        handler(getId, getIdResponse, 'GET', '/api/get');
+        handler(postId, postIdResponse, 'POST', '/api/post/4');
+        handler(getProtectedId, getProtectedIdResponse, 'GET', '/api/get/protected');
+        handler(postProtectedId, postProtectedIdResponse, 'POST', '/api/post/protected/4');
+        handler(loginId, loginResponse, 'GET', '/login');
+
+        function handler(elem, targetElem, method, route)
+        {            
+            elem.addEventListener('click', () => {
+
+                const xhttp = new XMLHttpRequest();
+                xhttp.onload = function() {
+                    let response = '';
+                    let tip      = '';
+                    if(this.status === 403){
+                        tip = ', <br> hint : Go to /login to set a secured JWT';
+                        response = this.responseText;
+                    }
+                    if(this.status === 200){
+                        response = JSON.parse(this.responseText).message;
+                    }
+                    targetElem.classList.add('api-div')
+                    targetElem.innerHTML = `here is the response text : ${response}
+                    <br> This is the status code : ${this.status} ${tip}`;
+                }
+                xhttp.open(method, route, true);
+                xhttp.send();
+            })
+        }
+</script>
+</html>
